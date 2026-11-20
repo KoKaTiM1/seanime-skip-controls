@@ -1,18 +1,19 @@
 // Loaded through skip-ten-seconds.json. Requires the playback permission.
 function init() {
     $ui.register((ctx) => {
-        const selector = '[data-vc-element="control-bar-main-section"]';
+        const selector = '[data-vc-element="control-bar-main-section"] [data-vc-element="timestamp"]';
         const mounting: Record<string, boolean> = {};
-        ctx.dom.observe(selector, async (elements) => {
-            for (const parent of elements) {
-                const control = await parent.queryOne('[data-vc-element="timestamp"]');
-                if (!control) continue;
+        async function mount(elements: any[]) {
+            for (const control of elements) {
                 if (mounting[control.id]) continue;
                 mounting[control.id] = true;
                 try {
-                    if (await parent.queryOne('[data-skip-ten]')) continue;
+                    const parent = await control.getParent();
+                    if (!parent) continue;
                     let anchor = control;
                     for (const seconds of [-10, 10]) {
+                        const existing = await parent.queryOne('[data-skip-ten="' + seconds + '"]');
+                        if (existing) { anchor = existing; continue; }
                         const button = await ctx.dom.createElement('button');
                         button.setAttribute('type', 'button');
                         button.setAttribute('data-skip-ten', String(seconds));
@@ -31,6 +32,18 @@ function init() {
                     delete mounting[control.id];
                 }
             }
-        });
+        }
+        ctx.dom.observe(selector, mount);
+        let checking = false;
+        async function reconcile() {
+            if (checking) return;
+            checking = true;
+            try { await mount(await ctx.dom.query(selector)); }
+            finally { checking = false; }
+        }
+        ctx.dom.onReady(reconcile);
+        ctx.videoCore.addEventListener('video-loaded', reconcile);
+        // React can replace controls after the initial player mount.
+        ctx.setInterval(reconcile, 1000);
     });
 }
