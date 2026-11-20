@@ -1,0 +1,18 @@
+{
+  "id": "skip-ten-seconds",
+  "name": "Skip Ten Seconds",
+  "version": "0.1.0",
+  "manifestURI": "https://raw.githubusercontent.com/KoKaTiM1/seanime-skip-controls/main/skip-ten-seconds.json",
+  "language": "typescript",
+  "type": "plugin",
+  "description": "Adds back and forward 10-second buttons beside play/pause in the built-in player. Experimental.",
+  "author": "KoKaTiM1",
+  "icon": "",
+  "website": "https://github.com/KoKaTiM1/seanime-skip-controls",
+  "lang": "en",
+  "payloadURI": "https://raw.githubusercontent.com/KoKaTiM1/seanime-skip-controls/main/skip-ten-seconds.ts",
+  "plugin": {
+    "version": "1",
+    "permissions": { "scopes": ["playback"] }
+  }
+}
