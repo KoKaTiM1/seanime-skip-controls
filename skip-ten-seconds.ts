@@ -1,16 +1,16 @@
 // Loaded through skip-ten-seconds.json. Requires the playback permission.
 function init() {
     $ui.register((ctx) => {
-        const selector = 'button[aria-label="Play"], button[aria-label="Pause"], button[title="Play"], button[title="Pause"]';
+        const selector = '[data-vc-element="control-bar-main-section"]';
         const mounting: Record<string, boolean> = {};
         ctx.dom.observe(selector, async (elements) => {
-            for (const control of elements) {
+            for (const parent of elements) {
+                const control = await parent.queryOne('[data-vc-element="control-button"]');
+                if (!control) continue;
                 if (mounting[control.id]) continue;
                 mounting[control.id] = true;
                 try {
-                    const parent = await control.getParent();
-                    if (!parent || await parent.queryOne('[data-skip-ten]')) continue;
-                    if (!ctx.videoCore.getCurrentClientId()) continue;
+                    if (await parent.queryOne('[data-skip-ten]')) continue;
                     for (const seconds of [-10, 10]) {
                         const button = await ctx.dom.createElement('button');
                         button.setAttribute('type', 'button');
