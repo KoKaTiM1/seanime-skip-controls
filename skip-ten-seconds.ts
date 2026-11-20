@@ -19,7 +19,8 @@ function init() {
                         button.setAttribute('aria-label', seconds < 0 ? 'Back 10 seconds' : 'Forward 10 seconds');
                         button.setAttribute('title', seconds < 0 ? 'Back 10 seconds' : 'Forward 10 seconds');
                         button.setText(seconds < 0 ? '\u21b6 10' : '10 \u21b7');
-                        button.setCssText('display:inline-flex;align-items:center;justify-content:center;width:46px;height:36px;flex-shrink:0;border:0;border-radius:4px;background:rgba(25,25,25,.8);color:white;font-size:14px;cursor:pointer;margin:0 4px;');
+                        button.setAttribute('class', 'vc-control-button flex items-center justify-center transition-opacity relative h-full focus-visible:outline-none focus:outline-none focus-visible:opacity-50 px-2 hover:opacity-80');
+                        button.setCssText('display:inline-flex;align-items:center;justify-content:center;min-width:46px;height:100%;flex-shrink:0;border:0;border-radius:0;background:transparent;color:inherit;font-size:16px;font-weight:500;line-height:1;cursor:pointer;padding:0 8px;margin-left:' + (seconds < 0 ? '12px' : '0') + ';');
                         button.addEventListener('click', () => ctx.videoCore.seek(seconds));
                         anchor.after(button);
                         anchor = button;

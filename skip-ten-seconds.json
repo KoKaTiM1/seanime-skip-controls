@@ -1,7 +1,7 @@
 {
   "id": "skip-ten-seconds",
   "name": "Skip Ten Seconds",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "manifestURI": "https://raw.githubusercontent.com/KoKaTiM1/seanime-skip-controls/main/skip-ten-seconds.json",
   "language": "typescript",
   "type": "plugin",
